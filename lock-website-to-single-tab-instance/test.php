@@ -2,8 +2,8 @@
 
 // STEP I: Define globals
 $mysql  = new mysqli("localhost", "mysqli username", "mysqli password", "mysqli database name"); // MySQLi object
-$ip     = $_SERVER["REMOTE_ADDR"];																	// Client IP
-$hash   = password_hash(time(). $ip, PASSWORD_DEFAULT);												// Generate unique key per request; check http://php.net/password_hash
+$ip     = $_SERVER["REMOTE_ADDR"];								// Client IP
+$hash   = password_hash(time(). $ip, PASSWORD_DEFAULT);						// Generate unique key per request; check http://php.net/password_hash
 
 if(isset($_GET["drop_key"]) && $_GET["drop_key"] == true)
 {
@@ -13,9 +13,9 @@ if(isset($_GET["drop_key"]) && $_GET["drop_key"] == true)
 	header("Location: http://www.google.com", true, 301);	// Redirect to google aka exit website
 }
 
-if(isset($_GET["_key"]) && $_GET["_key"])															// Check if _key is defined and is not null in GET request
+if(isset($_GET["_key"]) && $_GET["_key"])	// Check if _key is defined and is not null in GET request
 {
-    $key = $mysql -> real_escape_string($_GET["_key"]);																// Prevent SQL injections
+    $key = $mysql -> real_escape_string($_GET["_key"]);		// Prevent SQL injections
     $fetched = $mysql -> query("SELECT * FROM test_keys WHERE test_keys._key = '$key' AND test_keys.ip = '$ip';");// Retrieve the row which has assigned the _key and the client IP
     
     if($fetched -> num_rows > 0)	// If row has been retrieved, it means the client has accessed the site at least once;
